@@ -1,0 +1,8 @@
+post http://localhost:3333/api/posts
+Content-Type: application/json
+
+{
+    "name": "kevin",
+    "title": "libertad"
+}
+###
