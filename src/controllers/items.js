@@ -1,11 +1,9 @@
-let items = require("../data/items.js")
-const { v4: uuidv4 } = require("uuid")
+//const { v4: uuidv4 } = require("uuid")
+//const fastify = require("fastify")
 
-const getItems = function (request, reply) {
-  items.forEach(item => {
-    item.date = new Date().toLocaleTimeString("fr")
-  })
-  reply.send(items)
+const getUsers = async function (request, reply) {
+  const users = await this.mongo.db.collection("test").find({}).toArray()
+  return users
 }
 
 const getItem = function (request, reply) {
@@ -15,12 +13,11 @@ const getItem = function (request, reply) {
   reply.send({ body: item })
 }
 
-const addItem = function (request, reply) {
-  const { name } = request.body
-  const id = uuidv4()
-  const item = { id, name, date: new Date().toISOString() }
-  items.push(item)
-  reply.code(201).send({ body: item })
+const addUser = async function (request, reply) {
+  const { name, password, email } = request.body
+  const user = { name, password, email }
+  await this.mongo.db.collection("test").insertOne(user)
+  reply.code(201).send({ body: user })
 }
 
 const deleteItem = function (request, reply) {
@@ -37,4 +34,4 @@ const patchItem = function (request, reply) {
   reply.code(200).send({ body: newItem })
 }
 
-module.exports = { getItems, getItem, addItem, deleteItem, patchItem }
+module.exports = { getUsers, getItem, addUser, deleteItem, patchItem }

@@ -12,8 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/mongodb": "^6.0.1",
+    "dotenv": "^16.0.1",
     "fastify": "^4.2.0",
-    "uuid": "^8.3.2"
+    "fastify-plugin": "^3.0.1"
   },
   "devDependencies": {
     "@fastify/swagger": "^7.4.1"
