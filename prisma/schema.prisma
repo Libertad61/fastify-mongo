@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type PlanetsSurfaceTemperatureC {
+  /// Multiple data types found: Float: 16.7%, Int: 83.3% out of 11 sampled entries
+  max  Json?
+  /// Multiple data types found: Float: 27.3%, Int: 72.7% out of 11 sampled entries
+  mean Json
+  /// Multiple data types found: Float: 16.7%, Int: 83.3% out of 11 sampled entries
+  min  Json?
+}
+
+model planets {
+  id                  String                      @id @default(auto()) @map("_id") @db.ObjectId
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  age                 Json?
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  country             Json?
+  hasRings            Boolean?
+  mainAtmosphere      String[]
+  name                String?
+  orderFromSun        Int?
+  planet              String?
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  single              Json?
+  surfaceTemperatureC PlanetsSurfaceTemperatureC?
+}
+
+model test {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  email    String
+  name     String
+  password String
+}

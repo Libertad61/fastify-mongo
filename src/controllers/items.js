@@ -1,37 +1,42 @@
-//const { v4: uuidv4 } = require("uuid")
-//const fastify = require("fastify")
+const prisma = require("../plugins/prisma")
 
 const getUsers = async function (request, reply) {
-  const users = await this.mongo.db.collection("test").find({}).toArray()
+  //const users = await this.mongo.db.collection("test").find({}).toArray()
+  const users = await prisma.test.findMany()
   return users
 }
 
-const getItem = function (request, reply) {
-  const id = request.params.id
-  const item = items.find(item => item.id === id)
-  item.date = new Date().toISOString()
-  reply.send({ body: item })
+const getUser = async function (request, reply) {
+  const user = await this.mongo.db
+    .collection("test")
+    .find({ name: request.params.name })
+    .toArray()
+  return { user }
 }
 
 const addUser = async function (request, reply) {
   const { name, password, email } = request.body
   const user = { name, password, email }
-  await this.mongo.db.collection("test").insertOne(user)
+  //await this.mongo.db.collection("test").insertOne(user)
+  await prisma.test.create({ data: user })
+  await prisma.$disconnect()
   reply.code(201).send({ body: user })
 }
 
-const deleteItem = function (request, reply) {
-  const { id } = request.params
-  items = items.filter(item => item.id !== id)
-  reply.send({ items, message: `Item: ${id} has been deleted` })
+const deleteUser = async function (request, reply) {
+  const ObjectId = this.mongo.ObjectId
+  await this.mongo.db
+    .collection("test")
+    .deleteOne({ _id: new ObjectId(request.params.id) })
+  console.log(reply)
+  reply.send({ message: `Item:  has been deleted` })
 }
 
-const patchItem = function (request, reply) {
-  const { id } = request.params
-  const { name } = request.body
-  const newItem = { id, name, date: new Date().toLocaleTimeString("fr") }
-  items.find(item => item.id === id).name = name
+const patchUser = function (request, reply) {
+  const ObjectId = this.mongo.ObjectId
+  const { name, password, email } = request.body
+  const newItem = { _id: new ObjectId(request.params.id), name }
   reply.code(200).send({ body: newItem })
 }
 
-module.exports = { getUsers, getItem, addUser, deleteItem, patchItem }
+module.exports = { getUsers, getUser, addUser, deleteUser, patchUser }

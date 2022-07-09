@@ -15,7 +15,7 @@ fastify.register(require("@fastify/mongodb"), {
   forceClose: true
 })
 
-fastify.register(require("./routes/items"), { prefix: "/items" })
+fastify.register(require("./routes/items"), { prefix: "/users" })
 
 const start = async () => {
   try {

@@ -1,9 +1,9 @@
 const {
   getUsers,
-  getItem,
+  getUser,
   addUser,
-  deleteItem,
-  patchItem
+  deleteUser,
+  patchUser
 } = require("../controllers/items.js")
 
 const Item = {
@@ -36,13 +36,8 @@ const getUsersOpts = {
   handler: getUsers
 }
 
-const getItemOpts = {
-  schema: {
-    response: {
-      200: { body: Item }
-    }
-  },
-  handler: getItem
+const getUserOpts = {
+  handler: getUser
 }
 
 const addUserOpts = {
@@ -62,29 +57,29 @@ const addUserOpts = {
   },
   handler: addUser
 }
-const delItemOpts = {
+const delUserOpts = {
   schema: {
     response: {
       201: { body: Item }
     }
   },
-  handler: deleteItem
+  handler: deleteUser
 }
-const patchItemOpts = {
+const patchUserOpts = {
   schema: {
     response: {
       201: { body: Item }
     }
   },
-  handler: patchItem
+  handler: patchUser
 }
 
 function itemRoutes(fastify, options, done) {
   fastify.get("/", getUsersOpts)
-  fastify.get("/:id", getItemOpts)
+  fastify.get("/:name", getUserOpts)
   fastify.post("/", addUserOpts)
-  fastify.delete("/:id", delItemOpts)
-  fastify.patch("/:id", patchItemOpts)
+  fastify.delete("/:id", delUserOpts)
+  fastify.patch("/:id", patchUserOpts)
   done()
 }
 
